@@ -1,5 +1,5 @@
 {
-  "private": true,
+  "name": "30-day",
   "packageManager": "pnpm@7.4.0",
   "scripts": {
     "build": "vite build",
