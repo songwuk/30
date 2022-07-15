@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "ESNext",
-    "target": "es2016",
+    "target": "ESNext",
     "lib": ["DOM", "ESNext"],
     "strict": true,
     "jsx": "preserve",
@@ -16,14 +16,12 @@
     "forceConsistentCasingInFileNames": true,
     "types": [
       "vite/client",
+      "node",
       "vite-plugin-pages/client"
     ],
     "paths": {
       "~/*": ["src/*"]
     }
   },
-  "files": [
-    "node_modules/gsap/types/index.d.ts"
-  ],
   "exclude": ["dist", "node_modules"]
 }

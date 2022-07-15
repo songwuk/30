@@ -8,6 +8,7 @@ declare module '@vue/runtime-core' {
     Header: typeof import('./src/components/Header.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SlotDefault: typeof import('./src/components/SlotDefault.vue')['default']
   }
 }
 

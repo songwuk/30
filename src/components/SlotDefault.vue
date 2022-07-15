@@ -3,7 +3,7 @@
 
 <template>
   <div w150 h150 b-gray-700 b class="square">
-    si
+    <slot />
   </div>
 </template>
 
