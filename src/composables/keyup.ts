@@ -1,5 +1,11 @@
 export function keyboard(value: string) {
-  const key = {} as any
+  const key = {
+    value: '',
+    isDown: false,
+    isUp: true,
+    press: () => {},
+    release: () => {},
+  } as any
   key.value = value
   key.isDown = false
   key.isUp = true
@@ -8,7 +14,6 @@ export function keyboard(value: string) {
   // The `downHandler`
   key.downHandler = (event: KeyboardEvent) => {
     if (event.code === key.value) {
-      // key.press()
       if (key.press)
         key.press()
       key.isDown = true
@@ -19,7 +24,7 @@ export function keyboard(value: string) {
 
   // The `upHandler`
   key.upHandler = (event: KeyboardEvent) => {
-    if (event.key === key.value) {
+    if (event.code === key.value) {
       if (key.release)
         key.release()
       key.isDown = false
