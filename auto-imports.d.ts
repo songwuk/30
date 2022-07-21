@@ -30,6 +30,7 @@ declare global {
   const debouncedWatch: typeof import('@vueuse/core')['debouncedWatch']
   const defineAsyncComponent: typeof import('vue')['defineAsyncComponent']
   const defineComponent: typeof import('vue')['defineComponent']
+  const distance: typeof import('./src/composables/jumpDistance')['distance']
   const eagerComputed: typeof import('@vueuse/core')['eagerComputed']
   const effectScope: typeof import('vue')['effectScope']
   const extendRef: typeof import('@vueuse/core')['extendRef']
@@ -44,7 +45,7 @@ declare global {
   const isReactive: typeof import('vue')['isReactive']
   const isReadonly: typeof import('vue')['isReadonly']
   const isRef: typeof import('vue')['isRef']
-  const keyboard: typeof import('./src/composables/keyup')['keyboard']
+  const keyboard: typeof import('./src/composables/keyboard')['keyboard']
   const logicAnd: typeof import('@vueuse/core')['logicAnd']
   const logicNot: typeof import('@vueuse/core')['logicNot']
   const logicOr: typeof import('@vueuse/core')['logicOr']
@@ -284,6 +285,7 @@ declare module '@vue/runtime-core' {
     readonly debouncedWatch: UnwrapRef<typeof import('@vueuse/core')['debouncedWatch']>
     readonly defineAsyncComponent: UnwrapRef<typeof import('vue')['defineAsyncComponent']>
     readonly defineComponent: UnwrapRef<typeof import('vue')['defineComponent']>
+    readonly distance: UnwrapRef<typeof import('./src/composables/jumpDistance')['distance']>
     readonly eagerComputed: UnwrapRef<typeof import('@vueuse/core')['eagerComputed']>
     readonly effectScope: UnwrapRef<typeof import('vue')['effectScope']>
     readonly extendRef: UnwrapRef<typeof import('@vueuse/core')['extendRef']>
@@ -298,7 +300,7 @@ declare module '@vue/runtime-core' {
     readonly isReactive: UnwrapRef<typeof import('vue')['isReactive']>
     readonly isReadonly: UnwrapRef<typeof import('vue')['isReadonly']>
     readonly isRef: UnwrapRef<typeof import('vue')['isRef']>
-    readonly keyboard: UnwrapRef<typeof import('./src/composables/keyup')['keyboard']>
+    readonly keyboard: UnwrapRef<typeof import('./src/composables/keyboard')['keyboard']>
     readonly logicAnd: UnwrapRef<typeof import('@vueuse/core')['logicAnd']>
     readonly logicNot: UnwrapRef<typeof import('@vueuse/core')['logicNot']>
     readonly logicOr: UnwrapRef<typeof import('@vueuse/core')['logicOr']>
