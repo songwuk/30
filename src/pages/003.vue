@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import * as PIXI from 'pixi.js'
+import type { Texture } from 'pixi.js'
 const canvasRef = ref<HTMLElement | null>(null)
 const app = new PIXI.Application({
   width: 800,
@@ -14,47 +15,47 @@ const baseHeight = $ref(app.screen.height / 3) // baseHeight
 onMounted(() => {
   canvasRef.value!.appendChild(app.view)
   // load the texture we need
-  const animationSpeed = 0.11
-
+  const startMegaMan: Texture[] = []
+  const standMegaMan: Texture[] = []
+  const jumpMegaMan: Texture[] = []
+  const runMegaMan: Texture[] = []
+  const animationSpeed = 0.167
+  const anchor = 0.5
   const scale = 1.4
   const mega_man = PIXI.Sprite.from('/003/mega_man/stand/sprite6.png') // mega_man
-  mega_man.anchor.set(0.5)
+  mega_man.anchor.set(anchor)
   mega_man.scale.x = scale
   mega_man.scale.y = scale
   app.loader.add('sprite_start', '003/mega_man/start/sprite_start.json') // start
   app.loader.add('sprite_stand', '003/mega_man/stand/sprite_stand.json') // stand
-  app.loader.add('sprite_run1', '003/mega_man/run/1/sprite_run.json') // run -left -right
+  app.loader.add('sprite_run', '003/mega_man/run/1/sprite_run.json') // run -left -right
   // app.loader.add('sprite_slide', '003') // slide
   app.loader.add('sprite_jump', '003/mega_man/jump/1/sprite_jump.json') // jump
   app.loader.load((_loader, _resources) => {
-    const startMegaMan = []
-    for (let i = 0; i < 9; i++) {
-      const texture = PIXI.Texture.from(`mega_man/start/sprite${i + 1}.png`)
-      startMegaMan.push(texture)
-    }
-    const standMegaMan = []
-    for (let index = 0; index < 6; index++) {
-      const texture = PIXI.Texture.from(`sprite${index + 1}.png`)
-      standMegaMan.push(texture)
-    }
-
-    const jumpMegaMan = []
-    for (let index = 0; index < 5; index++) {
-      const texture = PIXI.Texture.from(`sprite_jump${index + 1}.png`)
-      jumpMegaMan.push(texture)
-    }
+    Object.entries(_resources).filter(_arr => !_arr[0].endsWith('image')).forEach(([_key, value]) => {
+      Object.entries(value.textures!).forEach(([_k, v]) => {
+        if (value.name === 'sprite_start')
+          startMegaMan.push(v)
+        else if (value.name === 'sprite_stand')
+          standMegaMan.push(v)
+        else if (value.name === 'sprite_jump')
+          jumpMegaMan.push(v)
+        else if (value.name === 'sprite_run')
+          runMegaMan.push(v)
+      })
+    })
     const jumpMegaManSprite = new PIXI.AnimatedSprite(jumpMegaMan)
     jumpMegaManSprite.x = app.screen.width / 3
     jumpMegaManSprite.y = baseHeight
-    jumpMegaManSprite.anchor.set(0.5)
-    jumpMegaManSprite.animationSpeed = 0.167
+    jumpMegaManSprite.anchor.set(anchor)
+    jumpMegaManSprite.animationSpeed = animationSpeed
     jumpMegaManSprite.scale.x = scale
     jumpMegaManSprite.scale.y = scale
 
     const standMegaManSprite = new PIXI.AnimatedSprite(standMegaMan)
     standMegaManSprite.x = app.screen.width / 3
     standMegaManSprite.y = baseHeight
-    standMegaManSprite.anchor.set(0.5)
+    standMegaManSprite.anchor.set(anchor)
     standMegaManSprite.animationSpeed = animationSpeed
     standMegaManSprite.scale.x = scale
     standMegaManSprite.scale.y = scale
@@ -62,7 +63,7 @@ onMounted(() => {
     const startMegaManSprite = new PIXI.AnimatedSprite(startMegaMan)
     startMegaManSprite.x = app.screen.width / 3
     startMegaManSprite.y = baseHeight
-    startMegaManSprite.anchor.set(0.5)
+    startMegaManSprite.anchor.set(anchor)
     startMegaManSprite.animationSpeed = animationSpeed
     startMegaManSprite.scale.x = scale
     startMegaManSprite.scale.y = scale
@@ -72,18 +73,12 @@ onMounted(() => {
       standMegaManSprite.play()
       app.stage.addChild(standMegaManSprite)
     }
-
-    const runMegaMan = []
-    for (let i = 0; i < 10; i++) {
-      const texture = PIXI.Texture.from(`sprite_run${i + 1}.png`)
-      runMegaMan.push(texture)
-    }
-
     const runMegaManSprite = new PIXI.AnimatedSprite(runMegaMan)
     runMegaManSprite.x = app.screen.width / 3
     runMegaManSprite.y = baseHeight
     runMegaManSprite.animationSpeed = animationSpeed
-    runMegaManSprite.anchor.set(0.5)
+    runMegaManSprite.anchor.set(anchor)
+    // runMegaManSprite.updateAnchor = true // update anchor for each animation frame
     runMegaManSprite.scale.x = scale
     runMegaManSprite.scale.y = scale
     runMegaManSprite.play()
@@ -164,10 +159,12 @@ onMounted(() => {
       jumpMegaManSprite.y = runMegaManSprite.y - runSpeed1.speedUp() * 12
       if (runMegaManSprite.scale.x < 0) {
         jumpMegaManSprite.scale.x = -scale
-        jumpMegaManSprite.x = runMegaManSprite.x
+        jumpMegaManSprite.x = runMegaManSprite.x - runSpeed1.speedUp() * 12
+        runMegaManSprite.x = jumpMegaManSprite.x
       }
       else {
-        jumpMegaManSprite.x = runMegaManSprite.x
+        jumpMegaManSprite.x = runMegaManSprite.x + runSpeed1.speedUp() * 12
+        runMegaManSprite.x = jumpMegaManSprite.x
         jumpMegaManSprite.scale.x = scale
       }
       jumpMegaManSprite.play()

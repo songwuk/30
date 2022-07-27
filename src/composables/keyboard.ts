@@ -6,8 +6,8 @@ export interface Key {
   value: string | undefined
   isDown: boolean
   isUp: boolean
-  press: any // function on press
-  release: any // function on release
+  press: () => void // function on press
+  release: () => void // function on release
   _downHandler: any
   _upHandler: any
   unsubscribe: any
@@ -29,8 +29,6 @@ export function keyboard<T extends Pick<Key, 'value'> & isContinuously>(data: T)
   key.value = data.value
   key.isDown = false
   key.isUp = true
-  key.press = undefined
-  key.release = undefined
   // The `downHandler`
   key._downHandler = (event: KeyboardEvent) => {
     if (event.code === key.value) {
@@ -48,7 +46,7 @@ export function keyboard<T extends Pick<Key, 'value'> & isContinuously>(data: T)
   // The `upHandler`
   key._upHandler = (event: KeyboardEvent) => {
     if (event.code === key.value) {
-      if (data.isContinuously && key.press)
+      if (data.isContinuously && key.release)
         key.release()
       if (key.isDown && key.release) // key.isDown && key.release
         key.release()

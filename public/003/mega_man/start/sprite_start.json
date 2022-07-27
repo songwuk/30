@@ -215,30 +215,6 @@
         "x": 0.5,
         "y": 0.5
       }
-    },
-    "sprite_start.png": {
-      "frame": {
-        "x": 0,
-        "y": 178,
-        "w": 84,
-        "h": 178
-      },
-      "rotated": false,
-      "trimmed": false,
-      "spriteSourceSize": {
-        "x": 0,
-        "y": 0,
-        "w": 84,
-        "h": 178
-      },
-      "sourceSize": {
-        "w": 84,
-        "h": 178
-      },
-      "pivot": {
-        "x": 0.5,
-        "y": 0.5
-      }
     }
   },
   "meta": {
